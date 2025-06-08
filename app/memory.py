@@ -161,14 +161,12 @@ class Chat:
 
 class Memory:
     def __init__(self, limit: int = 200) -> None:
-        # ---- data windows -------------------------------------------------
         self.limit: int = limit
-        self.frames: list[Any] = []          # rolling interaction buffer
-        self.snapshots: list[Any] = []       # finished schedule results
+        self.frames: list[Any] = []  
+        self.snapshots: list[Any] = []      
         self.inputs: list[Any] = [] 
         self.chat = Chat()
 
-        # Runner step logging
         self.runner_steps: List[RunnerStep] = []
         self.step_limit: int = 1000  # Keep last 1000 steps
         self.logger_hooks: Optional[RunnerLoggerHooks] = None
