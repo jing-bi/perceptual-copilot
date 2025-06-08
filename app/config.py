@@ -1,5 +1,8 @@
 import os
+import logging
 from openai import OpenAI
+
+
 
 
 try:
@@ -19,6 +22,7 @@ class Envs:
         self.model_mllm = os.getenv("MODEL_MLLM")
         self.model_loc = os.getenv("MODEL_LOC")
         self.client = OpenAI(base_url=self.end_lang, api_key=self.api_key)
+        self.debug = os.getenv("DEBUG", "false").lower() in ("true", "1", "yes")
     
     def _get_env(self, key: str) -> str:
         value = os.getenv(key)
@@ -27,3 +31,7 @@ class Envs:
         return value
 
 env = Envs()
+
+logger = logging.getLogger('copilot')
+logger.setLevel(logging.DEBUG if env.debug else logging.INFO)
+logger.addHandler(logging.StreamHandler())
