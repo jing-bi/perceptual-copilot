@@ -18,17 +18,21 @@ def get_session_memory(session_id: str = None) -> Memory:
 
 def video_handler(frame):
     frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-    rtcid = get_current_context().webrtc_id
-    mem = get_session_memory(rtcid)
+    current_webrtc_id = get_current_context().webrtc_id
+    print(f"Processing frame for WebRTC ID: {current_webrtc_id}")
+    mem = get_session_memory(current_webrtc_id)
+    
     if (snapshot := mem.enqueue(frame)):
         mem.chat.append(Message.tool(snapshot.gr, title=snapshot.sender, status='done'))
-    return frame, AdditionalOutputs(mem.chat.messages, rtcid)
+    return frame, AdditionalOutputs(mem.chat.messages, current_webrtc_id)
 
-def chat_handler(text, webrtc_state):
+def chat_handler(text, webrtc_state, request: gr.Request):
+    text = text.strip()
+    print(f"Received text: {text}, WebRTC State: {webrtc_state}")
     mem = get_session_memory(webrtc_state)
     if not mem.is_running:
-        mem.receive(text.strip())
-    return "", mem.chat.messages, webrtc_state
+        mem.receive(text)
+    return "", mem.chat.messages
 
 
 
@@ -67,7 +71,7 @@ if __name__ == "__main__":
         textbox.submit(
             chat_handler,
             inputs=[textbox, state],
-            outputs=[textbox, chatbot, state]
+            outputs=[textbox, chatbot],
         )
-    demo.queue(default_concurrency_limit=None)
+
     demo.launch(server_name="0.0.0.0", server_port=17788)
