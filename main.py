@@ -66,19 +66,19 @@ if __name__ == "__main__":
         css=Path("styles.css").read_text(),
     ) as demo:
         
-        # Header section with enhanced styling
+        # Header section with sleek styling
         gr.Markdown("""
-        <div style="text-align: center;">
-            <h1>🤖 Perceptual Copilot</h1>
-            <p style="font-size: 1.2em; color: #666; margin: 10px 0;">
+        <div class="sleek-header">
+            <h1>Perceptual Copilot</h1>
+            <p class="subtitle">
                 <span class="status-indicator"></span>
                 This is an experimental prototype that integrates OpenAI agents with visual tools to process real-time video streams.
             </p>
-            <p style="color: #888;">
+            <p class="tagline">
                 Real-time video analysis • Visual agents • Interactive chat
             </p>
         </div>
-        """)
+        """, elem_classes="sleek-header")
         
         state = gr.State(value=None)
         
