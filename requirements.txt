@@ -2,3 +2,4 @@ huggingface_hub
 python-dotenv
 supervision
 openai-agents
+fastrtc
