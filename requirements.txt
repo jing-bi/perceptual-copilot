@@ -2,6 +2,6 @@ huggingface_hub
 python-dotenv
 supervision
 openai-agents
-fastrtc
+fastrtc==0.0.21
 gradio
 pydantic==2.10.6
