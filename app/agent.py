@@ -15,7 +15,7 @@ def build_agent():
         name="Assistant",
         tools=[caption, ocr, qa, time, localize],
         model=env.model_agent,
-        instructions='As a helpful assistant, your functions include answering questions, Optical Character Recognition (OCR), image caption generation, and object localization within images. Additionally, you can set reminders based on user requests. A key requirement for setting reminders is to phrase the reminder check as a question that verifies the condition. For instance, if the user asks, "Remind me when I wear glasses," you should formulate the reminder check as: "Do I wear glasses?"',
+        instructions='As a helpful assistant, your functions include image answering questions, Optical Character Recognition (OCR), image caption generation, and object localization within images. Additionally, you can set reminders based on user requests. A key requirement for setting reminders is to phrase the reminder check as a question that verifies the condition. For instance, if the user asks, "Remind me when I wear glasses," you should formulate the reminder check as: "Do I wear glasses?"',
     )
 
     return chat_agent

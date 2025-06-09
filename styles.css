@@ -1,0 +1,154 @@
+.gradio-container {
+    background: linear-gradient(135deg, #fefefe 0%, #f8f6f0 100%) !important;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.main-header {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    padding: 20px;
+    margin: 10px 0;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.video-container {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.chat-container {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.chat-container textarea {
+    border: 3px solid #4285f4 !important;
+    border-radius: 12px !important;
+    padding: 15px !important;
+    font-size: 16px !important;
+    font-weight: 500 !important;
+    background: #ffffff !important;
+    box-shadow: 0 4px 20px rgba(66, 133, 244, 0.15) !important;
+    transition: all 0.3s ease !important;
+    min-height: 50px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    resize: none !important;
+}
+
+.chat-container textarea:focus {
+    border-color: #1a73e8 !important;
+    box-shadow: 0 6px 25px rgba(66, 133, 244, 0.3), 0 0 0 3px rgba(66, 133, 244, 0.1) !important;
+    outline: none !important;
+    transform: translateY(-2px) !important;
+}
+
+.chat-container textarea::placeholder {
+    color: #5f6368 !important;
+    font-weight: 400 !important;
+    font-size: 15px !important;
+}
+
+.chat-container .gr-text-input {
+    border: none !important;
+    background: transparent !important;
+}
+
+.instructions-container {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    padding: 25px;
+    margin: 20px 0;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.feature-card {
+    background: linear-gradient(135deg, #ff6b6b, #feca57);
+    border-radius: 10px;
+    padding: 15px;
+    margin: 10px 0;
+    color: white;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.status-indicator {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background: #4CAF50;
+    border-radius: 50%;
+    margin-right: 8px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+.title-emoji {
+    font-size: 2em;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+/* Hide Gradio branding and footer elements */
+.gradio-container footer {
+    display: none !important;
+}
+
+/* Hide "Use via API" button */
+.gradio-container .api-docs {
+    display: none !important;
+}
+
+/* Hide "Built with Gradio" logo */
+.gradio-container .built-with {
+    display: none !important;
+}
+
+/* Hide Settings button */
+.gradio-container .settings {
+    display: none !important;
+}
+
+/* Hide the entire footer area */
+.gradio-container .footer {
+    display: none !important;
+}
+
+/* Alternative selectors for different Gradio versions */
+.gradio-container div[data-testid="footer"] {
+    display: none !important;
+}
+
+.gradio-container .gradio-footer {
+    display: none !important;
+}
+
+/* Hide any elements containing gradio branding text */
+.gradio-container a[href*="gradio"] {
+    display: none !important;
+}
+
+.gradio-container div:has-text("Built with") {
+    display: none !important;
+}
+
+.gradio-container div:has-text("Use via API") {
+    display: none !important;
+}

@@ -8,6 +8,7 @@ import time
 from datetime import datetime
 import numpy as np
 import gradio as gr
+
 from .config import logger
 @dataclass
 class RunnerStep:
@@ -160,7 +161,7 @@ class Chat:
 
 
 class Memory:
-    def __init__(self, limit: int = 200) -> None:
+    def __init__(self, agent, limit: int = 200) -> None:
         self.limit: int = limit
         self.frames: list[Any] = []  
         self.snapshots: list[Any] = []      
@@ -174,9 +175,9 @@ class Memory:
         self._chat_q: asyncio.Queue[Any] = asyncio.Queue()
         self._input_q: asyncio.Queue[Any] = asyncio.Queue()
         self._loop: Optional[asyncio.AbstractEventLoop] = None
-        self.agent: Any | None = None
         self.is_waiting: bool = False
         self.is_running: bool = False
+        self.setup(agent)
 
     def log_runner_step(self, step: RunnerStep) -> None:
         """Log a runner step and maintain the step history limit"""
@@ -196,9 +197,9 @@ class Memory:
         self._loop.call_soon_threadsafe(self._chat_q.put_nowait, text)
 
 
-    def setup(self, agents) -> None:
+    def setup(self, agent) -> None:
         """Bind *agent* and spawn the background monitor threads."""
-        self.v_agent = agents
+        self.v_agent = agent
         self.logger_hooks = RunnerLoggerHooks(self)
         def _runner() -> None:
             self._loop = asyncio.new_event_loop()
