@@ -3,3 +3,5 @@ python-dotenv
 supervision
 openai-agents
 fastrtc
+gradio
+pydantic==2.10.6

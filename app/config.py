@@ -21,13 +21,27 @@ class Envs:
         self.model_agent = os.getenv("MODEL_AGENT")
         self.model_mllm = os.getenv("MODEL_MLLM")
         self.model_loc = os.getenv("MODEL_LOC")
-        self.client = OpenAI(base_url=self.end_lang, api_key=self.api_key)
+        
+        # Only initialize OpenAI client if we have the required env vars
+        if self.end_lang and self.api_key:
+            self.client = OpenAI(base_url=self.end_lang, api_key=self.api_key)
+        else:
+            self.client = None
+            print("WARNING: OpenAI client not initialized due to missing environment variables")
+            
         self.debug = os.getenv("DEBUG", "1").lower() in ("true", "1", "yes")
     
     def _get_env(self, key: str) -> str:
         value = os.getenv(key)
         if not value:
-            raise ValueError(f"Required environment variable {key} is not set")
+            # For HF Spaces, provide fallback or warning
+            if key == "HF_TOKEN":
+                # HF Spaces automatically provides this
+                value = os.getenv("HF_TOKEN", "")
+            else:
+                print(f"WARNING: Environment variable {key} is not set")
+                # Return empty string instead of raising error for deployment
+                return ""
         return value
 
 env = Envs()

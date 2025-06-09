@@ -1,4 +1,5 @@
 from pathlib import Path
+import os
 import cv2
 import gradio as gr
 from fastrtc import Stream,WebRTC
@@ -38,6 +39,20 @@ def chat_handler(text, webrtc_state):
 
 
 if __name__ == "__main__":
+    # Check if running on HF Spaces
+    is_hf_spaces = os.getenv("SPACE_ID") is not None
+    
+    # For HF Spaces, ensure we have the required token
+    if is_hf_spaces and not env.hf_token:
+        print("WARNING: Running on HF Spaces but HF_TOKEN not found")
+    
+    # Basic startup health check
+    print("🚀 Starting Perceptual Copilot...")
+    print(f"HF Spaces: {is_hf_spaces}")
+    print(f"Environment check - API_KEY: {'✓' if env.api_key else '✗'}")
+    print(f"Environment check - END_LANG: {'✓' if env.end_lang else '✗'}")
+    print(f"Environment check - OpenAI Client: {'✓' if env.client else '✗'}")
+    
     
 
     with gr.Blocks(
@@ -72,7 +87,7 @@ if __name__ == "__main__":
             with gr.Column(scale=1, elem_classes="video-container"):
                 video = WebRTC(
                     label="🎥 Camera Stream",
-                    # rtc_configuration=get_cloudflare_turn_credentials(hf_token=env.hf_token),
+                    rtc_configuration=get_cloudflare_turn_credentials(hf_token=env.hf_token),
                     track_constraints={"width": {"exact": 600}, "height": {"exact": 600}, "aspectRatio": {"exact": 1}},
                     mode="send",
                     modality="video",
@@ -160,4 +175,4 @@ if __name__ == "__main__":
                     All models are self-hosted. Please avoid abuse of the system.
                     """)
     demo.queue(default_concurrency_limit=None)
-    demo.launch(server_name="0.0.0.0", server_port=17788)
+    demo.launch()
