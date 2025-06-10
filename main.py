@@ -13,7 +13,9 @@ session_memories = {}
 
 def get_session_memory(session_id: str = None) -> Memory:
     if session_id not in session_memories:
-        session_memories[session_id] = Memory(build_agent())    
+        session_memories[session_id] = Memory(build_agent())
+        welcome_message = "👋 Now I can see. Feel free to ask me about anything!"
+        session_memories[session_id].chat.append(Message.assistant(welcome_message))
     return session_memories[session_id]
 
 def video_handler(frame):
@@ -97,7 +99,7 @@ if __name__ == "__main__":
                 )
             
             with gr.Column(scale=1, elem_classes="chat-container"):
-                gr.Markdown("### 💬 AI Assistant Chat")
+                gr.Markdown("### 💬 Chat")
                 chatbot = gr.Chatbot(
                     type="messages", 
                     height=450,
@@ -106,12 +108,17 @@ if __name__ == "__main__":
                     show_label=False,
                 )
                 
-                with gr.Row():
+                with gr.Row(elem_classes="items-center"):
                     textbox = gr.Textbox(
-                        placeholder="💭 Question goes here",
-                        label="Chat Input",
+                        placeholder="💭 Question goes here, press ENTER to send",
                         lines=1,
-                        show_label=False
+                        show_label=False,
+                        scale=8,    
+                    )
+                    send_button = gr.Button(
+                        "✈️",
+                        variant="primary",
+                        scale=1,
                     )
         # Event handlers
         video.stream(
@@ -127,6 +134,13 @@ if __name__ == "__main__":
         
         # Chat handler for textbox
         textbox.submit(
+            chat_handler,
+            inputs=[textbox, state],
+            outputs=[textbox, chatbot, state]
+        )
+        
+        # Chat handler for send button
+        send_button.click(
             chat_handler,
             inputs=[textbox, state],
             outputs=[textbox, chatbot, state]

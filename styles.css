@@ -153,70 +153,249 @@
     display: none !important;
 }
 
-/* Sleek header styling without card effects */
-.sleek-header {
+/* Ultra-sleek header styling with modern design */
+.ultra-sleek-header {
     text-align: center;
-    padding: 10px 10px;
+    padding: 20px 20px 5px 20px;
     margin: 0;
     background: transparent;
     border: none;
-    box-shadow: none;
-    backdrop-filter: none;
+    position: relative;
+        overflow: hidden;
 }
 
-.sleek-header h1 {
-    font-size: 3.5rem;
-    font-weight: 700;
-    background: linear-gradient(135deg, #3376f2 0%, #d136d4 100%);
+.ultra-sleek-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(ellipse at center top, rgba(99, 102, 241, 0.05) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+
+.badge-icon {
+    font-size: 1rem;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-4px);
+    }
+}
+
+.hero-title {
+    font-size: 4rem;
+    font-weight: 800;
+    margin: 10px 0 5px 0;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    position: relative;
+    z-index: 1;
+}
+
+.title-primary {
+    background: linear-gradient(45deg,
+                #4169E1 0%,
+                #8A2BE2 50%,
+                #E91E63 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    margin: 0 0 10px 0;
-    letter-spacing: -0.02em;
-    line-height: 1.2;
+    position: relative;
 }
-.sleek-header .subtitle {
-    font-size: 1.3rem;
-    color: #4a5568;
+.title-primary::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #6366f1, #8b5cf6, #d946ef);
+    border-radius: 2px;
+    opacity: 0.6;
+}
+
+.title-accent {
+    background: linear-gradient(135deg, #1e293b 0%, #0d1e35 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    position: relative;
+    margin-left: 12px;
+}
+
+
+
+.hero-subtitle {
+    font-size: 1.25rem;
+    color: #64748b;
     font-weight: 400;
-    margin: 15px 0;
-    line-height: 1.5;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 15px auto 20px auto;
+        line-height: 1.6;
+        max-width: 580px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
 }
 
-.sleek-header .tagline {
-    color: #718096;
-    font-size: 1rem;
-    font-weight: 300;
-    margin: 10px 0 0 0;
-    letter-spacing: 0.5px;
-}
-
-.sleek-header .status-indicator {
+.status-dot {
     display: inline-block;
     width: 8px;
     height: 8px;
-    background: #48bb78;
+    background: #10b981;
     border-radius: 50%;
-    margin-right: 8px;
-    animation: pulse 2s infinite;
-    box-shadow: 0 0 0 0 rgba(72, 187, 120, 0.7);
+    position: relative;
+    flex-shrink: 0;
 }
 
-/* Responsive adjustments */
+.status-dot::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 8px;
+    height: 8px;
+    background: #10b981;
+    border-radius: 50%;
+    animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+        transform-origin: center;
+    }
+    
+    @keyframes ping {
+    
+        75%,
+        100% {
+            transform: scale(2);
+            opacity: 0;
+        }
+    }
+    
+    .feature-pills {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        margin-top: 20px;
+        flex-wrap: wrap;
+    }
+    
+    .pill {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(248, 250, 252, 0.9));
+        border: 1px solid rgba(148, 163, 184, 0.15);
+        border-radius: 25px;
+        padding: 6px 14px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: #475569;
+        backdrop-filter: blur(12px);
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        white-space: nowrap;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        letter-spacing: 0.025em;
+    }
+    
+    .pill:hover {
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.05));
+        border-color: rgba(99, 102, 241, 0.25);
+        color: #6366f1;
+        transform: translateY(-1px) scale(1.02);
+        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15), 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Ensure proper vertical alignment for chat input row */
+.items-center {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+
+.chat-container button {
+    height: 50px !important;
+    min-height: 50px !important;
+    width: 60px !important;
+    max-width: 60px !important;
+    min-width: 60px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+/* Responsive design for mobile */
 @media (max-width: 768px) {
-    .sleek-header h1 {
+    .ultra-sleek-header {
+            padding: 15px 15px 20px 15px;
+        }
+    
+        .hero-title {
+            font-size: 3rem;
+        }
+    
+        .hero-subtitle {
+            font-size: 1.125rem;
+            padding: 0 15px;
+            flex-direction: column;
+            gap: 8px;
+        }
+    
+        .feature-pills {
+            gap: 8px;
+            margin-top: 24px;
+        }
+    
+        .pill {
+            font-size: 0.8rem;
+            padding: 6px 12px;
+        }
+    }
+
+@media (max-width: 480px) {
+    .hero-title {
         font-size: 2.5rem;
+        line-height: 1.2;
     }
+    
+                                                                                                                                .title-accent {
+                                                                                                                                    margin-left: 8px;
+    }
+}
+.gradio-container .chatbot .message-wrap button[aria-label*="clear" i],
+.gradio-container .chatbot .message-wrap button[title*="clear" i] {
+    display: none !important;
+}
 
-    .sleek-header .subtitle {
-        font-size: 1.1rem;
-        padding: 0 10px;
-    }
+/* Target any button with clear-related text content */
+button:contains("Clear"),
+button:contains("clear"),
+button:contains("CLEAR") {
+    display: none !important;
+}
 
-    .sleek-header {
-        padding: 20px 10px;
-    }
+/* Target buttons in chat interfaces specifically */
+.chat-container button[aria-label*="clear" i],
+.chatbot button[aria-label*="clear" i],
+.message-wrap button[aria-label*="clear" i] {
+    display: none !important;
+}
+
+/* Hide buttons with specific SVG icons that might represent clear/delete */
+button svg[data-testid*="clear"],
+button svg[data-testid*="delete"],
+button svg[data-testid*="trash"] {
+    display: none !important;
+}
+
+/* Hide parent button if it contains clear-related SVG */
+button:has(svg[data-testid*="clear"]),
+button:has(svg[data-testid*="delete"]),
+button:has(svg[data-testid*="trash"]) {
+    display: none !important;
 }
