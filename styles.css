@@ -319,16 +319,6 @@
     gap: 8px !important;
 }
 
-.chat-container button {
-    height: 50px !important;
-    min-height: 50px !important;
-    width: 60px !important;
-    max-width: 60px !important;
-    min-width: 60px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-}
 /* Responsive design for mobile */
 @media (max-width: 768px) {
     .ultra-sleek-header {

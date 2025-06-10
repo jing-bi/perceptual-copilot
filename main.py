@@ -90,7 +90,7 @@ if __name__ == "__main__":
                     track_constraints={
                         "width": {"exact": 600}, 
                         "height": {"exact": 600}, 
-                        "aspectRatio": {"exact": 1}}
+                        "aspectRatio": {"exact": 1}},
                     mode="send",
                     modality="video",
                     mirror_webcam=True,
@@ -113,12 +113,6 @@ if __name__ == "__main__":
                         placeholder="💭 Question goes here, press ENTER to send",
                         lines=1,
                         show_label=False,
-                        scale=8,    
-                    )
-                    send_button = gr.Button(
-                        "✈️",
-                        variant="primary",
-                        scale=1,
                     )
         # Event handlers
         video.stream(
@@ -138,14 +132,6 @@ if __name__ == "__main__":
             inputs=[textbox, state],
             outputs=[textbox, chatbot, state]
         )
-        
-        # Chat handler for send button
-        send_button.click(
-            chat_handler,
-            inputs=[textbox, state],
-            outputs=[textbox, chatbot, state]
-        )
-
         
         # Enhanced instructions section
         with gr.Column(elem_classes="instructions-container"):
