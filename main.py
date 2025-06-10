@@ -27,7 +27,6 @@ def video_handler(frame):
     return frame, AdditionalOutputs(mem.chat.messages, rtcid)
 
 def chat_handler(text, webrtc_state):
-    # Handle case where webrtc_state might be None
     if webrtc_state is None:
         return "", [{"role": "assistant", "content": "Please start your camera first to begin the conversation."}], webrtc_state
     
@@ -41,16 +40,8 @@ def chat_handler(text, webrtc_state):
 
 
 if __name__ == "__main__":
-    # Check if running on HF Spaces
-    is_hf_spaces = os.getenv("SPACE_ID") is not None
-    
-    # For HF Spaces, ensure we have the required token
-    if is_hf_spaces and not env.hf_token:
-        print("WARNING: Running on HF Spaces but HF_TOKEN not found")
-    
-    # Basic startup health check
     print("🚀 Starting Perceptual Copilot...")
-    print(f"HF Spaces: {is_hf_spaces}")
+    print(f"HF Spaces: {os.getenv('SPACE_ID') is not None}")
     print(f"Environment check - API_KEY: {'✓' if env.api_key else '✗'}")
     print(f"Environment check - END_LANG: {'✓' if env.end_lang else '✗'}")
     print(f"Environment check - OpenAI Client: {'✓' if env.client else '✗'}")
@@ -70,17 +61,23 @@ if __name__ == "__main__":
         
         # Header section with sleek styling
         gr.Markdown("""
-        <div class="sleek-header">
-            <h1>Perceptual Copilot</h1>
-            <p class="subtitle">
-                <span class="status-indicator"></span>
-                This is an experimental prototype that integrates OpenAI agents with visual tools to process real-time video streams.
+        <div class="ultra-sleek-header">
+            <h1 class="hero-title">
+                <span class="title-primary">Perceptual</span>
+                <span class="title-accent">Copilot</span>
+            </h1>
+            <p class="hero-subtitle">
+                <span class="status-dot"></span>
+                An experimental prototype that integrates OpenAI agents with visual tools to process real-time video streams.
             </p>
-            <p class="tagline">
-                Real-time video analysis • Visual agents • Interactive chat
-            </p>
+            <div class="feature-pills">
+                <span class="pill">Real-time streaming</span>
+                <span class="pill">Visual Agent</span>
+                <span class="pill">Large vision language model</span>
+                <span class="pill">Reasoning</span>
+            </div>
         </div>
-        """, elem_classes="sleek-header")
+        """, elem_classes="ultra-sleek-header")
         
         state = gr.State(value=None)
         
@@ -90,7 +87,10 @@ if __name__ == "__main__":
                 video = WebRTC(
                     label="🎥 Camera Stream",
                     rtc_configuration=get_cloudflare_turn_credentials(hf_token=env.hf_token),
-                    track_constraints={"width": {"exact": 600}, "height": {"exact": 600}, "aspectRatio": {"exact": 1}},
+                    track_constraints={
+                        "width": {"exact": 600}, 
+                        "height": {"exact": 600}, 
+                        "aspectRatio": {"exact": 1}}
                     mode="send",
                     modality="video",
                     mirror_webcam=True,
