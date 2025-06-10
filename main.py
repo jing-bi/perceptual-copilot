@@ -151,6 +151,11 @@ if __name__ == "__main__":
         with gr.Column(elem_classes="instructions-container"):
             gr.Markdown("""
             ## 🚀 Get Started
+            
+            **📌 Quick Reminder:**
+            1. Allow camera access when prompted
+            2. Wait for the camera to initialize and first message to appear
+            3. 💡 **Tip:** If you find it hard to see the interface, please turn off night mode for better visibility
             """)
             
             with gr.Row():
