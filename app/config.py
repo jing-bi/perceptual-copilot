@@ -14,9 +14,9 @@ except ImportError:
 
 class Envs:
     def __init__(self):
-        self.hf_token = self._get_env("HF_TOKEN")
-        self.api_key = self._get_env("API_KEY")
-        self.end_task = self._get_env("END_TASK")
+        self.hf_token = os.getenv("HF_TOKEN")
+        self.api_key = os.getenv("API_KEY")
+        self.end_task = os.getenv("END_TASK")
         self.end_lang = os.getenv("END_LANG")
         self.model_agent = os.getenv("MODEL_AGENT")
         self.model_mllm = os.getenv("MODEL_MLLM")
@@ -30,19 +30,8 @@ class Envs:
             print("WARNING: OpenAI client not initialized due to missing environment variables")
             
         self.debug = os.getenv("DEBUG", "1").lower() in ("true", "1", "yes")
+        self.fps = int(os.getenv("FPS"))
     
-    def _get_env(self, key: str) -> str:
-        value = os.getenv(key)
-        if not value:
-            # For HF Spaces, provide fallback or warning
-            if key == "HF_TOKEN":
-                # HF Spaces automatically provides this
-                value = os.getenv("HF_TOKEN", "")
-            else:
-                print(f"WARNING: Environment variable {key} is not set")
-                # Return empty string instead of raising error for deployment
-                return ""
-        return value
 
 env = Envs()
 

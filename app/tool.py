@@ -117,3 +117,68 @@ def time(wrapper: RunContextWrapper[Memory]) -> str:
     result = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     mem.snapshots.append(Snapshot(sender='time', data=result))
     return result
+
+def sample_frames(mem: Memory, n: int) -> list:
+    """
+    Sample frames from the past n seconds of video.
+    
+    Args:
+        mem (Memory): The memory context containing frames.
+        n (int): Number of seconds to look back for video frames.
+    Returns:
+        list: Sampled frames from the video sequence.
+    """
+    if len(mem.frames) == 0:
+        return []
+    
+    available_frames = min(n * env.fps, len(mem.frames))
+    recent_frames = mem.frames[-available_frames:]
+    sampled_frames = recent_frames[::env.fps // 2]
+    
+    return sampled_frames
+
+@function_tool
+def video_caption(wrapper: RunContextWrapper[Memory], n=2) -> str:
+    """
+    Generate a descriptive caption for a video sequence from the past n seconds of frames.
+    The n is a required parameter that specifies how many seconds of video frames to consider.
+    
+    Args:
+        n (int): Number of seconds to look back for video frames.
+    Returns:
+        str:
+            The generated caption for the video sequence from the past n seconds.
+    """
+    mem = wrapper.context
+    sampled_frames = sample_frames(mem, n)
+    
+    if len(sampled_frames) == 0:
+        return "No frames available for video caption."
+    
+    prompt = "Describe this video sequence focusing on any changes or actions that occur over time."
+    result = completion_image(sampled_frames, prompt, env.model_mllm)
+    mem.snapshots.append(Snapshot(sender='video caption', data=result))
+    return result
+
+@function_tool
+def video_qa(wrapper: RunContextWrapper[Memory], question: str, n=2) -> str:
+    """
+    Answer a question based on a video sequence from the past n seconds of frames.
+    
+    Args:
+        question (str): The question to be answered.
+        n (int): Number of seconds to look back for video frames.
+    Returns:
+        str:
+            The answer to the question based on the video sequence from the past n seconds.
+    """
+    mem = wrapper.context
+    sampled_frames = sample_frames(mem, n)
+    
+    if len(sampled_frames) == 0:
+        return "No frames available for video Q&A."
+    
+    prompt = f"Answer the question based on this video sequence. Question: {question}"
+    result = completion_image(sampled_frames, prompt, env.model_mllm)
+    mem.snapshots.append(Snapshot(sender='video qa', data=result))
+    return result

@@ -9,7 +9,7 @@ from datetime import datetime
 import numpy as np
 import gradio as gr
 
-from .config import logger
+from .config import logger, env
 @dataclass
 class RunnerStep:
     """Log entry for a single Runner step"""
@@ -177,6 +177,7 @@ class Memory:
         self._loop: Optional[asyncio.AbstractEventLoop] = None
         self.is_waiting: bool = False
         self.is_running: bool = False
+        self._last_frame_time: float = 0
         self.setup(agent)
 
     def log_runner_step(self, step: RunnerStep) -> None:
@@ -187,9 +188,12 @@ class Memory:
             self.runner_steps.pop(0)
 
     def enqueue(self, data: Any) -> None:
-        self.frames.append(data)
-        while len(self.frames) > self.limit:
-            self.frames.pop(0)
+        current_time = time.time()
+        if  current_time-self._last_frame_time > 1.0 / env.fps:
+            self._last_frame_time = current_time
+            self.frames.append(data)
+            while len(self.frames) > self.limit:
+                self.frames.pop(0)
         return self.snapshots.pop(0) if self.snapshots else None
     
     def receive(self, text: str) -> None:
