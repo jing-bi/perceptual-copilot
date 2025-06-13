@@ -64,13 +64,12 @@ class Message:
 class Snapshot:
     sender: str
     data: Any
+    status: str = 'done'
     
     @property
     def gr(self):
         if isinstance(self.data, np.ndarray):
             return gr.Image(self.data)
-        elif isinstance(self.sender, str) and self.sender == 'agent':
-            return f"Calling **{self.data}**"
         return self.data
 
 
@@ -86,7 +85,11 @@ class RunnerLoggerHooks(RunHooks):
     async def on_agent_start(self, context, agent):
         self.current_turn += 1
         self.turn_start_time = time.time()
-        
+        self.memory.snapshots.append(Snapshot(
+            sender='agent',
+            data='Deciding tools',
+            status='pending'
+        ))
         step = RunnerStep(
             timestamp=datetime.now().isoformat(),
             step_type="turn_start",
@@ -121,7 +124,8 @@ class RunnerLoggerHooks(RunHooks):
                 break
         self.memory.snapshots.append(Snapshot(
             sender='agent',
-            data=tool_name
+            status='pending',
+            data=f'Calling **{tool_name}**'
         ))
         step = RunnerStep(
             timestamp=datetime.now().isoformat(),
