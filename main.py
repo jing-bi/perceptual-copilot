@@ -23,7 +23,12 @@ def video_handler(frame):
     rtcid = get_current_context().webrtc_id
     mem = get_session_memory(rtcid)
     if (snapshot := mem.enqueue(frame)):
-        mem.chat.append(Message.tool(snapshot.gr, title=snapshot.sender, status='done'))
+        if snapshot.sender == 'agent':
+            mem.chat.append(Message.tool(snapshot.gr, title=snapshot.data, status='pending'))
+        elif mem.chat.history[-1].metadata.get('status') == 'pending':
+            mem.chat.history[-1]=Message.tool(snapshot.gr, title=snapshot.sender, status='done')
+        else:
+            mem.chat.append(Message.tool(snapshot.gr, title=snapshot.sender, status='done'))
     return frame, AdditionalOutputs(mem.chat.messages, rtcid)
 
 def chat_handler(text, webrtc_state):

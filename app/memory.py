@@ -69,6 +69,8 @@ class Snapshot:
     def gr(self):
         if isinstance(self.data, np.ndarray):
             return gr.Image(self.data)
+        elif isinstance(self.sender, str) and self.sender == 'agent':
+            return f"Calling **{self.data}**"
         return self.data
 
 
@@ -117,6 +119,10 @@ class RunnerLoggerHooks(RunHooks):
             if hasattr(tool_call, attr):
                 tool_args = getattr(tool_call, attr)
                 break
+        self.memory.snapshots.append(Snapshot(
+            sender='agent',
+            data=tool_name
+        ))
         step = RunnerStep(
             timestamp=datetime.now().isoformat(),
             step_type="tool_call",
